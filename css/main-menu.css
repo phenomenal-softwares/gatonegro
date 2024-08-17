@@ -11,7 +11,7 @@ body {
   gap: 2vh;
   height: 100vh;
   margin: 0;
-  background-size: cover;
+  background-size: 100vh;
   font-size: 12px;
 }
 .active-opacity:active {
