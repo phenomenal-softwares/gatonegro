@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/126c863153.js" crossorigin="anonymous"></script>
+  <!-- CSS only -->
+<link rel="stylesheet" href="css/game.css" type="text/css" media="all" />
+<link rel="stylesheet" href="css/cat.css" type="text/css" media="all" />
+
+  <!-- css libraries -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles" rel="stylesheet">
+  <title>GATONEGRO game</title>
+</head>
+<body>
+<div class="game-audio">
+  <audio id="game-music" loop>
+    <source src="audio/bgmusic.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="btn-sound">
+    <source src="audio/button.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="win-sound">
+    <source src="audio/celebrate.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="lose-sound">
+    <source src="audio/gameover.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="invalid-sound">
+    <source src="audio/invalid.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="success-sound">
+    <source src="audio/success.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="arrival-sound">
+    <source src="audio/arrival.mp3" type="audio/mpeg">
+  </audio>
+</div>
+<div class="top-area">
+  <div class="header">
+   <span onclick="document.location='menu.html'" class="menu-btn-back"><i class="fa-solid fa-arrow-left-long"></i>
+   </span>
+    <span>
+    <img src="img/xp.png" alt="xp" width="20px" />
+      <span class="xp">6</span>
+    </span>
+    <span>
+    <img src="img/coin.png" alt="coin" width="20px" />
+      <span class="coins">50</span>
+    </span>
+    <span style="display:flex">
+   <img src="img/mouse.png" alt="coin" width="20px" />
+      <span class="mice">50</span>
+    </span>
+    <span class="menu-btn" onclick="document.querySelector('.modal-container').style.display='flex'"><i class="fa-solid fa-ellipsis"></i></span>
+  </div>
+  <div class="cat-section">
+    <div class="country-info">
+      <div class="city-name">
+        Madrid
+      </div>
+      <img class="country" src="country/spain.png" alt="country" width="80%"/>
+      <div class="progress-bar">
+    <div class="progress"></div>
+       </div>
+    </div>
+    <div class="cat">
+	<div class="ear ear--left"></div>
+	<div class="ear ear--right"></div>
+	<div class="face">
+		<div class="eye eye--left">
+			<div class="eye-pupil"></div>
+		</div>
+		<div class="eye eye--right">
+			<div class="eye-pupil"></div>
+		</div>
+		<div class="muzzle"></div>
+	</div>
+</div>
+    <div class="countdown-hint">
+      <div class="guess-left">
+       <img src="countdown/ctd10.png" alt="ctd" width="65%" />
+       </div>
+    <div class="cat-instinct">
+      <img onclick="showHint()" class="hint-icon" src="img/show-hint.png" alt="hint-btn" width="50%" />
+      <span>
+      <img src="img/mouse.png" alt="mouse" width="20%" /> 
+      <span class="mice-cost">10</span>
+      </span>
+  </div>
+    <div class="cat-instinct">
+      <img onclick="catUltraInstinct()" class="hint-icon" src="img/ultra-cat.jpeg" alt="hint-btn" width="50%" />
+      <span style="display:flex; justify-content:center">
+      <img src="img/mouse.png" alt="mouse" width="20%" /> 
+      <span class="mice-ultra-cost">50</span>
+      </span>
+  </div>
+</div>
+  </div>
+  
+    <div class="guess-result">
+    <p class="guess-comment"> "... Let's guess"</p>
+  </div>
+  <div class="prev-guesses">
+       Previous Guesses: <br />
+        <span class="guesses"></span>
+    </div>
+</div>
+<div class="input-area">
+  <div class="guess-input"></div>
+ <button class="guess-submit">check</button>
+</div>
+<div class="input-button">
+  <img onclick="initGame('1')" class="keys" src="keys/k1.png" alt="key" />
+  <img onclick="initGame('2')" class="keys" src="keys/k2.png" alt="key" />
+  <img onclick="initGame('3')" class="keys" src="keys/k3.png" alt="key" />
+  <img onclick="initGame('4')" class="keys" src="keys/k4.png" alt="key" />
+  <img onclick="initGame('5')" class="keys" src="keys/k5.png" alt="key" />
+  <img onclick="initGame('6')" class="keys" src="keys/k6.png" alt="key" />
+  <img onclick="initGame('7')" class="keys" src="keys/k7.png" alt="key" />
+  <img onclick="initGame('8')" class="keys" src="keys/k8.png" alt="key" />
+  <img onclick="initGame('9')" class="keys" src="keys/k9.png" alt="key" />
+  <img onclick="backspace()" class="keys" src="keys/kb.png" alt="key" />
+  <img onclick="initGame('0')" class="keys" src="keys/k0.png" alt="key" />
+  <img onclick="location.reload()" class="keys" src="keys/kr.png" alt="key" />
+    </div>
+<div class="modal-container">
+  <div class="modal-box animate__animated animate__bounce">
+   <div class="settings">
+    <div onclick="document.querySelector('.mouse-shop-modal').style.display='flex'">
+        <span><i class="fa-solid fa-paw"></i></span>
+        Mouse Shop
+        </div>
+    <div onclick="document.querySelector('.tips-modal').style.display='flex'">
+        <span><i class="fa-solid fa-paw"></i></span>
+        Game Tips</div>
+    <div onclick="document.querySelector('.stat-modal').style.display='flex'">
+        <span><i class="fa-solid fa-paw"></i></span>
+        Game Stats
+        </div>
+    <div class="achievement-btn" onclick="document.querySelector('.achievement-modal').style.display='flex'">
+        <span><i class="fa-solid fa-paw"></i></span>
+        Achievements</div>
+    <div class="sound-btn">
+        <span><i class="fa-solid fa-paw"></i>
+        Sound </span>
+       <span class="switch">
+        <input class="sound-check" type="checkbox" checked>
+         <span class="slider round"></span>
+       </span>
+      </div>
+    <div onclick="document.location='main-menu.html'">
+        <i class="fa-solid fa-door-open"></i>
+        Main Menu
+    </div>
+      <button onclick="document.querySelector('.modal-container').style.display='none'" class="close-btn">Close</button>
+    </div>
+  </div>
+</div>
+ <h1 class="comment-popup animate__animated animate__bounceIn">
+  <span class="first-word">"ALMOST</span>
+  <span class="last-word">THERE"</span>
+  </h1>
+<div class="scoreboard-modal">
+ <div class="scoreboard animate__animated animate__bounceIn">
+    <div>
+      <img src="img/win.gif" alt="win" width="100%" />
+    </div>
+ <div class="game-win-stats">
+   <div class="score-guess">
+   <span class="right-guess">225</span>
+  </div>
+  <div class="score-stars animate__animated animate__tada animate__repeat-3">
+    <i class="fa-solid fa-star"></i>
+    <i class="fa-solid fa-star"></i>
+    <i class="fa-solid fa-star"></i>
+  </div>
+  <div class="score-stats">
+    <div class="score-details">
+    <div class="animate__animated animate__bounceInLeft animate__delay-1s">
+      <span class="score-icon w3-white"> 
+  <img src="img/target.png" alt="target" width="22px" />
+     <span class="att w3-text-red">7</span>
+      </span>
+    </div>
+    <div class="animate__animated animate__bounceInLeft animate__delay-2s">
+   <span class="score-icon xp-style"> 
+   <img src="img/xp.png" alt="coin" width="18px" /> 
+   <span class="xp-gain">10</span>
+   </span>
+    </div>
+    <div class="animate__animated animate__bounceInLeft animate__delay-3s">
+      <span class="score-icon w3-blue"> 
+   <img src="img/coin.png" alt="coin" width="18px" /> 
+   <span class="stars-given">50</span>
+   </span>
+    </div>
+    <div class="animate__animated animate__bounceInLeft animate__delay-4s">
+      <span class="score-icon w3-red"> 
+    <span class="clock-icon">
+        <i class="fa-regular fa-clock"></i>
+      </span>
+   <span class="game-duration">01:30</span>
+   </span>
+    </div>
+  </div>
+  <div class="progress-container">
+    <div class="score-progress"></div>
+  </div>
+  </div>
+   </div>
+  <div class="score-buttons">
+    <button onclick="refreshGame()" class="play-again-btn">PLAY AGAIN</button>
+    <button class="home-btn">
+      <i class="fa-solid fa-door-open"></i>
+    </button>
+  </div>
+</div>
+  </div>
+<div class="game-over-modal">
+  <div class="game-over">
+    <div class="display-right-guess">
+      450
+    </div>
+    <div class="quote">
+      "Don't give up... I believe in you!"
+    </div>
+    <div class="replay-buttons active-opacity">
+    <button onclick="refreshGame()" class="play-again-btn">PLAY AGAIN</button>
+    <button class="home-btn">
+     <i class="fa-solid fa-door-open"></i>
+    </button>
+  </div>
+  </div>
+</div>
+<div class="hint-modal">
+  <div class="hint-box animate__animated animate__bounceIn">
+    <div class="hint-heading">
+      Cat Instinct
+    </div>
+    <ul class="hint-text">
+      <li class="hint-one">
+       Number is odd
+      </li>
+     <li class="hint-two">
+      Number is between 300 and 305
+      </li>
+    </ul>
+    <button onclick="document.querySelector('.hint-modal').style.display='none'" class="got-it-btn">Got it!</button>
+  </div>
+</div>
+<div class="ultra-instinct-modal">
+  <div class="instinct-box animate__animated animate__bounceIn">
+    <p class="instinct-text">
+     208
+    </p>
+  </div>
+  <button onclick="document.querySelector('.ultra-instinct-modal').style.display='none'" class="got-it-btn">Got it!</button>
+</div>
+<div class="arrival-modal">
+  <div class="animate__animated animate__bounceIn">
+    <img class="arrival-img" src="arrival/madrid.png" alt="arrival" width="100%" />
+  </div>
+  <div class="arrival-info">
+    <span>City: <span class="arrival-city">
+     Madrid, Spain
+     </span>
+    </span>
+    <span>Guess: 
+    <span class="arrival-guess">
+     1 - 10
+     </span>
+    </span>
+    <span class="arrival-reward">Rewards: 
+    <span style="display:flex">
+    <img src="img/coin.png" alt="coin" width="20px" />
+    <span class="arrival-coins">200</span>
+     </span>
+    <span style="display:flex">
+    <img src="img/mouse.png" alt="coin" width="25px" />
+    <span class="arrival-mice">50</span>
+     </span>
+    </span>
+  </div>
+  <button onclick="document.querySelector('.arrival-modal').style.display='none'" class="got-it-btn">
+    Let's go
+    <i class="fa-solid fa-arrow-right"></i>
+    </button>
+</div>
+<div class="mouse-shop-modal">
+  <div class="shop-header">
+   <span onclick="document.querySelector('.mouse-shop-modal').style.display='none'" class="active-opacity">
+      <img src="img/back-btn.png" class="border-radius" alt="back" width="40%" /></span>
+    <span style="display:flex; align-items:center">
+    <img src="img/coin.png" alt="coin" width="30px" height="30px" />
+      <span class="shop-coins">50</span>
+    </span>
+    <span style="display:flex; align-items:center">
+   <img src="img/mouse.png" alt="coin" width="30%" />
+      <span class="shop-mice">50</span>
+    </span>
+  </div>
+  <div class="mouse-shop-logo">
+    <img src="img/mouse-shop.png" alt="mouse" width="70%" />
+  </div>
+  <div class="shop-wrapper">
+  <div class="shop-container">
+   <div class="mouse-shop-purchase">
+    <div class="shop-select">
+     <div>
+       <img src="img/mice10.png" alt="mice" width="100%" />
+     </div> 
+      <div class="shop-coins"> <img src="img/coin.png" alt="coin" width="20%" /> 100</div>
+      <button onclick="buyMouse(10, 100)" class="purchase-btn">PURCHASE</button>
+    </div>
+    <div class="shop-select">
+      <div>
+        <img src="img/mice20.png" alt="mice" width="100%" />
+      </div>
+      <div class="shop-coins"> <img src="img/coin.png" alt="coin" width="20%" /> 180</div>
+      <button onclick="buyMouse(20, 180)" class="purchase-btn">PURCHASE</button>
+    </div>
+    <div class="shop-select">
+      <div>
+        <img src="img/mice50.png" alt="mice" width="100%" />
+      </div>
+      <div class="shop-coins"> <img src="img/coin.png" alt="coin" width="20%" /> 300</div>
+      <button onclick="buyMouse(50, 300)" class="purchase-btn">PURCHASE</button>
+    </div>
+    <div class="shop-select">
+      <div>
+        <img src="img/mice100.png" alt="mice" width="100%" />
+      </div>
+      <div class="shop-coins"> <img src="img/coin.png" alt="coin" width="20%" /> 500</div>
+      <button onclick="buyMouse(100, 500)" class="purchase-btn">PURCHASE</button>
+    </div>
+    <div onclick="shop(500)" class="shop-select">
+      <div>
+        <img src="img/mice500.png" alt="mice" width="100%" />
+      </div>
+      <div class="shop-coins"> <img src="img/coin.png" alt="coin" width="20%" /> 2000</div>
+      <button onclick="buyMouse(500, 2000)" class="purchase-btn">PURCHASE</button>
+    </div>
+    <div class="shop-select">
+      <div>
+        <img src="img/mice2000.png" alt="mice" width="100%" />
+      </div>
+      <div class="shop-coins"> <img src="img/coin.png" alt="coin" width="20%" /> 5000</div>
+      <button onclick="buyMouse(2000, 5000)" class="purchase-btn">PURCHASE</button>
+    </div>
+    <div class="shop-select">
+      <div>
+        <img src="img/mice5000.png" alt="mice" width="100%" />
+      </div>
+      <div class="shop-coins"> <img src="img/coin.png" alt="coin" width="20%" /> 10000</div>
+      <button onclick="buyMouse(5000, 10000)" class="purchase-btn">PURCHASE</button>
+    </div>
+     </div>
+     </div>
+    </div>
+</div>
+<div class="achievement-modal">
+  <div class="achievement-header">
+    <span onclick="document.querySelector('.achievement-modal').style.display='none'" class="active-opacity">
+      <img src="img/back-btn.png" alt="back" width="100%"/></span>
+    <span><img src="img/achievement.png" alt="back" width="90%"/></span>
+  </div>
+  <div class="achievement-list">
+    <div id="achievements"></div>
+  </div>
+</div>
+<div class="stat-modal">
+  <div class="stat-header">
+    <span onclick="document.querySelector('.stat-modal').style.display='none'" class="active-opacity">
+      <img src="img/back-btn.png" class="border-radius" alt="back" width="100%"/></span>
+    <span><img src="img/stats.png" alt="stat" width="90%" />
+    </span>
+  </div>
+  <div class="stat-list">
+    <div class="stat">
+      <span>Rank</span>
+      <span class="current-rank">Newbie</span>
+    </div>
+    <div class="stat">
+      <span>Current City</span>
+      <span class="current-city">Madrid, Spain</span>
+    </div>
+    <div class="stat">
+      <span>Number to Guess</span>
+      <span class="current-guess">1 - 10</span>
+    </div>
+    <div class="stat">
+      <span>Total XP</span>
+      <span class="total-xp">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Games Played</span>
+      <span class="total-games-played">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Correct Guesses</span>
+      <span class="total-correct-guesses">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Games Lost</span>
+      <span class="total-incorrect-guesses">0</span>
+    </div>
+    <div class="stat">
+      <span>Average Correct Guesses per Total Games</span>
+      <span class="average-attempts-per-correct">0</span>
+    </div>
+    <div class="stat">
+      <span>Best Winning Streak</span>
+      <span class="best-streak">0</span>
+    </div>
+    <div class="stat">
+      <span>Current Winning Streak</span>
+      <span class="current-streak">0</span>
+    </div>
+    <div class="stat">
+      <span>Current Losing Streak</span>
+      <span class="losing-streak">0</span>
+    </div>
+    <div class="stat">
+      <span>Highest Losing Streak</span>
+      <span class="highest-losing-streak">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Coins Earned</span>
+      <span class="total-coins-earned">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Coins Spent</span>
+      <span class="total-coins-spent">0</span>
+    </div>
+    <div class="stat">
+      <span>Current Coins Available</span>
+      <span class="current-coins-available">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Mice Earned</span>
+      <span class="total-mice-earned">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Mice Consumed</span>
+      <span class="total-mice-spent">0</span>
+    </div>
+    <div class="stat">
+      <span>Current Mice Available</span>
+      <span class="current-mice-available">0</span>
+    </div>
+    <div class="stat">
+      <span>Total Time Played</span>
+      <span class="total-time-played">0</span>
+    </div>
+    <div class="stat">
+      <span>Fastest Correct Guess</span>
+      <span class="fastest-correct-guess">0</span>
+    </div>
+    <div class="stat">
+      <span>Lengthiest Correct Guess</span>
+      <span class="slowest-correct-guess">0</span>
+    </div>
+    <div class="stat">
+      <span>Achievements Claimed</span>
+      <span class="achievements-unlocked">0</span>
+    </div>
+    <div class="stat">
+      <span>Game Completion</span>
+      <span class="game-completion">0</span>
+    </div>
+</div>
+</div>
+<div class="tips-modal">
+  <div class="tips-header">
+    <span onclick="document.querySelector('.tips-modal').style.display='none'" class="active-opacity">
+      <img src="img/back-btn.png" class="border-radius" alt="back" width="100%"/></span>
+    <span><img src="img/tips.png" alt="stat" width="90%" />
+    </span>
+  </div>
+  <div class="tips-list">
+    <div class="tip">
+     <b>OVERVIEW</b>
+      <span>
+       Gatonegro's life dream is to visit his favorite cities around the world. Help him gain enough XP by correctly guessing numbers required for each city within limited attempts. <br />
+       The required guess number is indicated on the suitcase by the left side of the screen. <br />
+       The required attempt is indicated by the right side of the screen
+      </span>
+    </div>
+    <div class="tip">
+     <b>COINS & MICE</b>
+      <span>
+       Earn coins and mice as you proceed through the game. Mice are required to use power-ups. <br />
+       Mice can be purchased at the Mouse Shop
+      </span>
+    </div>
+    <div class="tip">
+     <b>GUESS COMMENTS</b>
+      <span>
+       The key to guess right is to follow each comment provided after a guess is entered. <br />
+       Narrow down your guesses by following the prompts. <br />
+       Also observe the colours of your previous guesses: <br />
+       <b style="color:#ff7bbf">This colour means your guess is lower than the actual number</b> <br />
+       <b style="color:#feffe9">This colour means your guess is higher than the actual number</b>
+      </span>
+    </div>
+    <div class="tip">
+     <b>POWER-UPS</b>
+      <span>
+       The game features two power-ups: Cat Instinct and Cat Ultra Instinct. <br />
+       <b style="text-decoration:underline">Cat Instinct</b> provides a range of numbers in which the number to be guessed falls.
+       <br />
+       <b style="text-decoration:underline">Cat Ultra Instinct</b> provides the precise number. This consumes relatively much mice
+      </span>
+    </div>
+    <div class="tip">
+     <b>ACHIEVEMENTS</b>
+      <span>
+       Achievements are a great way to get coins rewards. Check them out often. <br />
+       Gold flashes of your menu button notifies that an achievement reward has been unlocked
+      </span>
+    </div>
+    <div class="tip">
+     <b>STATS</b>
+      <span>
+       Keep track of your game progress by checking your game stats on the menu
+      </span>
+    </div>
+    <div class="tip">
+     <b>RATINGS & CONTACT</b>
+      <span>
+       <b style="text-decoration:underline">Please rate us</b> on the Google Play to help others download the game. <br />
+       You can also <b onclick="document.location='mailto:abiodunojo453@gmail.com'" style="text-decoration:underline">Contact us for any information</b>
+      </span>
+    </div>
+</div>
+</div>
+
+  <script src="js/game.js"></script>
+</body>
+
+</html>

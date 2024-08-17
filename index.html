@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<title>GATONEGRO</title>
+<style>
+  body {
+    background-color: #313866;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 78vh;
+    padding: 20px;
+  }
+  .progress-container {
+    height: 2vh;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: #feffe9;
+    border-radius: 20px;
+    margin: 10px;
+  }
+  .progress {
+    height: 1.8vh;
+    width: 0;
+    background-color: #313866;
+    border-radius: 20px;
+  }
+</style>
+</head>
+<body>
+<div>
+  <img src="img/game-logo.jpg" alt="logo" width="100%" />
+</div>
+<div class="progress-container">
+<div class="progress">
+</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+localStorage.removeItem("soundOff");
+  let progress = document.querySelector('.progress');
+  let width = 10;
+ setInterval(function() {
+   width++;
+ progress.style.width = width + "%";
+ if (width == 100) {
+  document.location.replace("main-menu.html")
+}
+}, 50);
+
+
+</script>
+</body>
+</html>
